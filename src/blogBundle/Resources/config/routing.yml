@@ -1,3 +1,27 @@
-blog_homepage:
-    path:     /
-    defaults: { _controller: blogBundle:Default:index }
+
+blog_home:
+    path:      /
+    defaults:  { _controller: blogBundle:Post:index}
+
+blog_view:
+    path:      /advert/{id}
+    defaults:  { _controller: blogBundle:Post:view }
+    requirements:
+        id: \d+
+
+blog_add:
+    path:      /add
+    defaults:  { _controller: blogBundle:Post:add }
+
+blog_edit:
+    path:      /edit/{id}
+    defaults:  { _controller: blogBundle:Post:edit }
+    requirements:
+        id: \d+
+
+blog_delete:
+    path:      /delete/{id}
+    defaults:  { _controller: blogBundle:Post:delete }
+    requirements:
+        id: \d+
+
