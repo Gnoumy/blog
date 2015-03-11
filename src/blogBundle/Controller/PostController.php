@@ -17,19 +17,25 @@ class PostController extends Controller
         'id'      => 1,
         'author'  => 'Alexandre',
         'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-        'date'    => new \Datetime()),
+        'date'    => new \Datetime(),
+        'category'=> 'Divers'),
+
       array(
         'title'   => 'Mission de webmaster',
         'id'      => 2,
         'author'  => 'Hugo',
         'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
-        'date'    => new \Datetime()),
+        'date'    => new \Datetime(),
+        'category'=> 'Enfants'),
+
       array(
         'title'   => 'Offre de stage webdesigner',
         'id'      => 3,
         'author'  => 'Mathieu',
         'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
-        'date'    => new \Datetime())
+        'date'    => new \Datetime(),
+        'category'=> 'Religion')
+
     );
 
 
