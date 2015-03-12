@@ -28,7 +28,11 @@ class Category
      */
     private $title;
 
-
+     /**
+    * @ORM\OneToMany(targetEntity="Post", mappedBy="Category")
+    */
+    private $posts;
+    
     /**
      * Get id
      *
