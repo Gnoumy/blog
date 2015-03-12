@@ -5,12 +5,12 @@ namespace blogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * commentary
+ * Commentary
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class commentary
+class Commentary
 {
 
     /**
