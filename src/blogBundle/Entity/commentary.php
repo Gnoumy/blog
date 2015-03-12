@@ -104,4 +104,50 @@ class Commentary
     {
         return $this->date;
     }
+
+    /**
+     * Set post
+     *
+     * @param \blogBundle\Entity\Post $post
+     * @return Commentary
+     */
+    public function setPost(\blogBundle\Entity\Post $post)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \blogBundle\Entity\Post 
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \blogBundle\Entity\User $user
+     * @return Commentary
+     */
+    public function setUser(\blogBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \blogBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

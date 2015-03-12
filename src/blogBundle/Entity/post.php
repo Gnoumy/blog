@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     /**
-   * @ORM\ManyToOne(targetEntity="blogBundle\Entity\User")
+   * @ORM\ManyToOne(targetEntity="blogBundle\Entity\User", cascade={"persist"})
    * @ORM\JoinColumn(nullable=false)
    */
     private $user;
@@ -193,5 +193,51 @@ class Post
     public function getAuteur()
     {
         return $this->auteur;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \blogBundle\Entity\User $user
+     * @return Post
+     */
+    public function setUser(\blogBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \blogBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \blogBundle\Entity\Category $category
+     * @return Post
+     */
+    public function setCategory(\blogBundle\Entity\Category $category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \blogBundle\Entity\Category 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }
