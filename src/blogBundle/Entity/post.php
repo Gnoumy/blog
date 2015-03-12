@@ -13,6 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     /**
+   * @ORM\ManyToOne(targetEntity="blogBundle\Entity\User")
+   * @ORM\JoinColumn(nullable=false)
+   */
+    private $user;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
