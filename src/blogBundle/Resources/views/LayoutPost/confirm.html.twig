@@ -1,0 +1,22 @@
+{% extends "blogBundle:LayoutPost:layout.html.twig" %}
+
+{% block title %}
+   Confirmation - {{ titre }}
+{% endblock %}
+
+{% block post_body %}
+
+  <h2>Confirmation de {{ titre }}</h2>
+
+  <div class="well">
+    {{ contenu }}
+  </div>
+
+  <p>
+    <a href="{{ path('blog_home') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à la page d'accueil
+    </a>
+  </p>
+
+{% endblock %}

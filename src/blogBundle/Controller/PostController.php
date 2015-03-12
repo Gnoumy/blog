@@ -5,7 +5,7 @@ namespace blogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use blogBundle\Entity\Post;
 class PostController extends Controller
 {
   public function indexAction()
@@ -17,19 +17,25 @@ class PostController extends Controller
         'id'      => 1,
         'author'  => 'Alexandre',
         'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-        'date'    => new \Datetime()),
+        'date'    => new \Datetime(),
+        'category'=> 'Divers'),
+
       array(
         'title'   => 'Mission de webmaster',
         'id'      => 2,
         'author'  => 'Hugo',
         'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
-        'date'    => new \Datetime()),
+        'date'    => new \Datetime(),
+        'category'=> 'Enfants'),
+
       array(
         'title'   => 'Offre de stage webdesigner',
         'id'      => 3,
         'author'  => 'Mathieu',
         'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
-        'date'    => new \Datetime())
+        'date'    => new \Datetime(),
+        'category'=> 'Religion')
+
     );
 
 
@@ -43,6 +49,7 @@ class PostController extends Controller
 
   public function viewAction($id)
   {
+    // ON RECUPERE LES INFOS DE LA BASE
     $advert = array(
       'title'   => 'Recherche développpeur Symfony2',
       'id'      => $id,
@@ -57,6 +64,14 @@ class PostController extends Controller
   }
 
 
+
+  public function confirmAction($titre,$contenu)
+  {
+        return $this->render('blogBundle:LayoutPost:confirm.html.twig', array(
+      'titre' => $titre,
+      'contenu' => $contenu
+    ));
+  }
 
 public function menuAction()
   {
@@ -78,20 +93,51 @@ public function menuAction()
 
   public function addAction(Request $request)
   {
-    // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
 
-    // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
+
+    //FORMULAIRE
+    $post = new Post();
+    $formBuilder = $this->get('form.factory')->createBuilder('form', $post);
+    $formBuilder
+      ->add('date',      'date')
+      ->add('title',     'text')
+      ->add('body',   'textarea')
+      ->add('auteur',    'text')
+      ->add('isPublished', 'checkbox')
+      ->add('save',      'submit')
+            //->add('category',  'checkbox')
+    ;
+    $form = $formBuilder->getForm();
+
+    $form->handleRequest($request);
+
     if ($request->isMethod('POST')) {
-      // Ici, on s'occupera de la création et de la gestion du formulaire
+      if($form->isValid()){
+          //INSERTION DANS LA BASE        
+          $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+          return $this->redirect($this->generateUrl('blog_post_confirm', array(
+            'titre' => 'd\'ajout',
+            'contenu' => 'Votre post a bien été sauvegardé.')));
+      }
 
-      $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
-      // Puis on redirige vers la page de visualisation de cettte annonce
-      return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
     }
 
-    // Si on n'est pas en POST, alors on affiche le formulaire
-    return $this->render('blogBundle:LayoutPost:add.html.twig');
+    
+
+    /* FILTRE ANTI SPAM
+    $antispam = $this->container->get('blog.antispam');
+    $text = '...';
+    if ($antispam->isSpamPost($text)) {
+      throw new \Exception('Votre message a été détecté comme spam !');
+    }
+    */
+
+
+    //AFFICHAGE
+    return $this->render('blogBundle:LayoutPost:add.html.twig', array(
+      'form' => $form->createView(),
+    ));
   }
 
   public function editAction($id, Request $request)
@@ -102,7 +148,7 @@ public function menuAction()
     if ($request->isMethod('POST')) {
       $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
-      return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
+      return $this->redirect($this->generateUrl('blog_post_view', array('id' => 5)));
     }
 
     return $this->render('blogBundle:LayoutPost:edit.html.twig');
@@ -115,6 +161,28 @@ public function menuAction()
     // Ici, on gérera la suppression de l'annonce en question
 
     return $this->render('blogBundle:LayoutPost:delete.html.twig');
+  }
+
+
+
+
+  public function commentAction(Request $request,$id)
+  {
+    // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
+
+    // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
+    if ($request->isMethod('POST')) {
+      // Ici, on s'occupera de la création et de la gestion du formulaire
+
+      $request->getSession()->getFlashBag()->add('notice', 'Commentaire bien enregistrée.');
+
+      // Puis on redirige vers la page de visualisation de cettte annonce
+      return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
+    }
+
+    // Si on n'est pas en POST, alors on affiche le formulaire
+    return $this->render('blogBundle:LayoutPost:comment.html.twig', array(
+      'id' => $id));
   }
 
 }
