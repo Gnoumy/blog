@@ -1,5 +1,5 @@
 <?php
-
+// src/blogBundle/DataFixtures/ORM/LoadPostData.php
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
