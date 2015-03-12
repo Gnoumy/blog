@@ -114,7 +114,6 @@ public function menuAction()
     if ($request->isMethod('POST')) {
       if($form->isValid()){
           //INSERTION DANS LA BASE        
-          $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
           return $this->redirect($this->generateUrl('blog_post_confirm', array(
             'titre' => 'd\'ajout',
             'contenu' => 'Votre post a bien été sauvegardé.')));
@@ -146,7 +145,6 @@ public function menuAction()
 
     // Même mécanisme que pour l'ajout
     if ($request->isMethod('POST')) {
-      $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
       return $this->redirect($this->generateUrl('blog_post_view', array('id' => 5)));
     }
@@ -174,7 +172,6 @@ public function menuAction()
     if ($request->isMethod('POST')) {
       // Ici, on s'occupera de la création et de la gestion du formulaire
 
-      $request->getSession()->getFlashBag()->add('notice', 'Commentaire bien enregistrée.');
 
       // Puis on redirige vers la page de visualisation de cettte annonce
       return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
