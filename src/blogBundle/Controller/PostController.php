@@ -65,6 +65,14 @@ class PostController extends Controller
 
 
 
+  public function confirmAction($titre,$contenu)
+  {
+        return $this->render('blogBundle:LayoutPost:confirm.html.twig', array(
+      'titre' => $titre,
+      'contenu' => $contenu
+    ));
+  }
+
 public function menuAction()
   {
     // On fixe en dur une liste ici, bien entendu par la suite
@@ -85,34 +93,11 @@ public function menuAction()
 
   public function addAction(Request $request)
   {
-    // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
 
-    // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
-    if ($request->isMethod('POST')) {
-      // Ici, on s'occupera de la création et de la gestion du formulaire
 
-      $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-
-      // Puis on redirige vers la page de visualisation de cettte annonce
-      return $this->redirect($this->generateUrl('blog_post_view', array('id' => 5)));
-    }
-   // On récupère le service
-    $antispam = $this->container->get('blog.antispam');
-
-    /* Je pars du principe que $text contient le texte d'un message quelconque
-    $text = '...';
-    if ($antispam->isSpamPost($text)) {
-      throw new \Exception('Votre message a été détecté comme spam !');
-    }
-    */
-
-    // Si on n'est pas en POST, alors on affiche le formulaire
-    // On crée un objet Post
+    //FORMULAIRE
     $post = new Post();
-    // On crée le FormBuilder grâce au service form factory
     $formBuilder = $this->get('form.factory')->createBuilder('form', $post);
-
-    // On ajoute les champs de l'entité que l'on veut à notre formulaire
     $formBuilder
       ->add('date',      'date')
       ->add('title',     'text')
@@ -122,13 +107,34 @@ public function menuAction()
       ->add('save',      'submit')
             //->add('category',  'checkbox')
     ;
-    // Pour l'instant, pas de candidatures, catégories, etc., on les gérera plus tard
-
-    // À partir du formBuilder, on génère le formulaire
     $form = $formBuilder->getForm();
 
-    // On passe la méthode createView() du formulaire à la vue
-    // afin qu'elle puisse afficher le formulaire toute seule
+    $form->handleRequest($request);
+
+    if ($request->isMethod('POST')) {
+      if($form->isValid()){
+          //INSERTION DANS LA BASE        
+          $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+          return $this->redirect($this->generateUrl('blog_post_confirm', array(
+            'titre' => 'd\'ajout',
+            'contenu' => 'Votre post a bien été sauvegardé.')));
+      }
+
+
+    }
+
+    
+
+    /* FILTRE ANTI SPAM
+    $antispam = $this->container->get('blog.antispam');
+    $text = '...';
+    if ($antispam->isSpamPost($text)) {
+      throw new \Exception('Votre message a été détecté comme spam !');
+    }
+    */
+
+
+    //AFFICHAGE
     return $this->render('blogBundle:LayoutPost:add.html.twig', array(
       'form' => $form->createView(),
     ));
@@ -142,7 +148,7 @@ public function menuAction()
     if ($request->isMethod('POST')) {
       $request->getSession()->getFlashBag()->add('notice', 'Annonce bien modifiée.');
 
-      return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
+      return $this->redirect($this->generateUrl('blog_post_view', array('id' => 5)));
     }
 
     return $this->render('blogBundle:LayoutPost:edit.html.twig');
