@@ -1,3 +1,4 @@
 services:
     blog.antispam:
         class: blogBundle\AntiSpam\AntiSpam
+        arguments: [@mailer, %locale%, 50]
