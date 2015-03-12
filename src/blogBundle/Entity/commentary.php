@@ -17,13 +17,13 @@ class Commentary
    * @ORM\ManyToOne(targetEntity="blogBundle\Entity\Post")
    * @ORM\JoinColumn(nullable=false)
    */
-    private $Post;
+    private $post;
 
     /**
    * @ORM\ManyToOne(targetEntity="blogBundle\Entity\User")
    * @ORM\JoinColumn(nullable=false)
    */
-    private $User;
+    private $user;
 
     /**
      * @var integer

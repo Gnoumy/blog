@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use blogBundle\Entity\Post;
+use blogBundle\Entity\Commentary;
+
 class PostController extends Controller
 {
   public function indexAction()
@@ -166,20 +168,31 @@ public function menuAction()
 
   public function commentAction(Request $request,$id)
   {
-    // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
+    //FORMULAIRE
+    $comment = new Commentary();
+    $formBuilder = $this->get('form.factory')->createBuilder('form', $comment);
+    $formBuilder
+      ->add('date',      'date')
+      ->add('contenu',   'textarea')
+      ->add('save',      'submit')
+    ;
+    $form = $formBuilder->getForm();
 
-    // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
+    $form->handleRequest($request);
+
     if ($request->isMethod('POST')) {
-      // Ici, on s'occupera de la création et de la gestion du formulaire
-
-
-      // Puis on redirige vers la page de visualisation de cettte annonce
-      return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
+      if($form->isValid()){
+          //INSERTION DANS LA BASE        
+          return $this->redirect($this->generateUrl('blog_post_confirm', array(
+            'titre' => 'd\'ajout de commentaire',
+            'contenu' => 'Votre commentaire a bien été posté.')));
+      }
     }
 
-    // Si on n'est pas en POST, alors on affiche le formulaire
+    //AFFICHAGE
     return $this->render('blogBundle:LayoutPost:comment.html.twig', array(
-      'id' => $id));
-  }
+      'form' => $form->createView(),
+    ));
 
+}
 }
