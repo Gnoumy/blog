@@ -4,8 +4,9 @@ namespace blogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
- * post
+ * Post
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="blogBundle\Entity\postRepository")
@@ -17,6 +18,12 @@ class Post
    * @ORM\JoinColumn(nullable=false)
    */
     private $user;
+    
+   /**
+   * @ORM\ManyToOne(targetEntity="blogBundle\Entity\Category")
+   * @ORM\JoinColumn(nullable=false)
+   */
+    private $category;
 
     /**
      * @var integer
