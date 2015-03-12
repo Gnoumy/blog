@@ -94,7 +94,7 @@ public function menuAction()
       $request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
 
       // Puis on redirige vers la page de visualisation de cettte annonce
-      return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
+      return $this->redirect($this->generateUrl('blog_post_view', array('id' => 5)));
     }
    // On récupère le service
     $antispam = $this->container->get('blog.antispam');
@@ -107,19 +107,20 @@ public function menuAction()
     */
 
     // Si on n'est pas en POST, alors on affiche le formulaire
-    // On crée un objet Advert
-    $advert = new Advert();
+    // On crée un objet Post
+    $post = new Post();
     // On crée le FormBuilder grâce au service form factory
-    $formBuilder = $this->get('form.factory')->createBuilder('form', $advert);
+    $formBuilder = $this->get('form.factory')->createBuilder('form', $post);
 
     // On ajoute les champs de l'entité que l'on veut à notre formulaire
     $formBuilder
       ->add('date',      'date')
       ->add('title',     'text')
-      ->add('content',   'textarea')
-      ->add('author',    'text')
-      ->add('published', 'checkbox')
+      ->add('body',   'textarea')
+      ->add('auteur',    'text')
+      ->add('isPublished', 'checkbox')
       ->add('save',      'submit')
+            //->add('category',  'checkbox')
     ;
     // Pour l'instant, pas de candidatures, catégories, etc., on les gérera plus tard
 
@@ -128,7 +129,7 @@ public function menuAction()
 
     // On passe la méthode createView() du formulaire à la vue
     // afin qu'elle puisse afficher le formulaire toute seule
-    return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
+    return $this->render('blogBundle:LayoutPost:add.html.twig', array(
       'form' => $form->createView(),
     ));
   }
