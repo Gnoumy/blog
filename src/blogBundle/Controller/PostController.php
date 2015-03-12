@@ -49,6 +49,7 @@ class PostController extends Controller
 
   public function viewAction($id)
   {
+    // ON RECUPERE LES INFOS DE LA BASE
     $advert = array(
       'title'   => 'Recherche développpeur Symfony2',
       'id'      => $id,
@@ -95,7 +96,14 @@ public function menuAction()
       // Puis on redirige vers la page de visualisation de cettte annonce
       return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
     }
+   // On récupère le service
+    $antispam = $this->container->get('blog.antispam');
 
+    // Je pars du principe que $text contient le texte d'un message quelconque
+    $text = '...';
+    if ($antispam->isSpamPost($text)) {
+      throw new \Exception('Votre message a été détecté comme spam !');
+    }
     // Si on n'est pas en POST, alors on affiche le formulaire
     return $this->render('blogBundle:LayoutPost:add.html.twig');
   }
@@ -121,6 +129,28 @@ public function menuAction()
     // Ici, on gérera la suppression de l'annonce en question
 
     return $this->render('blogBundle:LayoutPost:delete.html.twig');
+  }
+
+
+
+
+  public function commentAction(Request $request,$id)
+  {
+    // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
+
+    // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
+    if ($request->isMethod('POST')) {
+      // Ici, on s'occupera de la création et de la gestion du formulaire
+
+      $request->getSession()->getFlashBag()->add('notice', 'Commentaire bien enregistrée.');
+
+      // Puis on redirige vers la page de visualisation de cettte annonce
+      return $this->redirect($this->generateUrl('blog_view', array('id' => 5)));
+    }
+
+    // Si on n'est pas en POST, alors on affiche le formulaire
+    return $this->render('blogBundle:LayoutPost:comment.html.twig', array(
+      'id' => $id));
   }
 
 }
