@@ -16,16 +16,22 @@
   <p>
     <a href="{{ path('blog_home') }}" class="btn btn-default">
       <i class="glyphicon glyphicon-chevron-left"></i>
-      Retour à la liste
+      Retour à la page d'accueil
     </a>
-    <a href="{{ path('post_edit', {'id': advert.id}) }}" class="btn btn-default">
+    <a href="{{ path('blog_post_comment', {'id': advert.id}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-edit"></i>
+      Commenter ce post
+    </a>
+    
+    <!-- if admin <a href="{{ path('blog_post_edit', {'id': advert.id}) }}" class="btn btn-default">
       <i class="glyphicon glyphicon-edit"></i>
       Modifier l'annonce
     </a>
-    <a href="{{ path('post_delete', {'id': advert.id}) }}" class="btn btn-danger">
+    <a href="{{ path('blog_post_delete', {'id': advert.id}) }}" class="btn btn-danger">
       <i class="glyphicon glyphicon-trash"></i>
       Supprimer l'annonce
     </a>
+    -->
   </p>
 
 {% endblock %}

@@ -3,25 +3,30 @@ blog_home:
     path:      /
     defaults:  { _controller: blogBundle:Post:index}
 
-blog_view:
-    path:      /advert/{id}
+blog_post_view:
+    path:      /post/{id}
     defaults:  { _controller: blogBundle:Post:view }
     requirements:
         id: \d+
 
-blog_add:
-    path:      /add
+blog_post_add:
+    path:      /post/add
     defaults:  { _controller: blogBundle:Post:add }
 
-blog_edit:
-    path:      /edit/{id}
+blog_post_edit:
+    path:      /post/edit/{id}
     defaults:  { _controller: blogBundle:Post:edit }
     requirements:
         id: \d+
 
-blog_delete:
-    path:      /delete/{id}
+blog_post_delete:
+    path:      /post/delete/{id}
     defaults:  { _controller: blogBundle:Post:delete }
     requirements:
         id: \d+
 
+blog_post_comment:
+    path:      /post/comment/{id}
+    defaults:  { _controller: blogBundle:Post:comment }
+    requirements:
+        id: \d+
