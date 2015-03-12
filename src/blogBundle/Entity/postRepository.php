@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class postRepository extends EntityRepository
 {
+	public function findAll()
+	{
+		return $this->createQueryBuilder('p')
+			->add('select', 'p')
+			->add('where', 'p.is_published = :published')
+			->add('orderBy', 'p.created_at DESC')
+			->setParameter('published', true)
+			->getResult();
+	}
+
+
 }
