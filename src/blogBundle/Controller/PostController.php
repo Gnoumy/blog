@@ -5,7 +5,7 @@ namespace blogBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use blogBundle\Entity\Post;
 class PostController extends Controller
 {
   public function indexAction()
@@ -99,13 +99,38 @@ public function menuAction()
    // On récupère le service
     $antispam = $this->container->get('blog.antispam');
 
-    // Je pars du principe que $text contient le texte d'un message quelconque
+    /* Je pars du principe que $text contient le texte d'un message quelconque
     $text = '...';
     if ($antispam->isSpamPost($text)) {
       throw new \Exception('Votre message a été détecté comme spam !');
     }
+    */
+
     // Si on n'est pas en POST, alors on affiche le formulaire
-    return $this->render('blogBundle:LayoutPost:add.html.twig');
+    // On crée un objet Advert
+    $advert = new Advert();
+    // On crée le FormBuilder grâce au service form factory
+    $formBuilder = $this->get('form.factory')->createBuilder('form', $advert);
+
+    // On ajoute les champs de l'entité que l'on veut à notre formulaire
+    $formBuilder
+      ->add('date',      'date')
+      ->add('title',     'text')
+      ->add('content',   'textarea')
+      ->add('author',    'text')
+      ->add('published', 'checkbox')
+      ->add('save',      'submit')
+    ;
+    // Pour l'instant, pas de candidatures, catégories, etc., on les gérera plus tard
+
+    // À partir du formBuilder, on génère le formulaire
+    $form = $formBuilder->getForm();
+
+    // On passe la méthode createView() du formulaire à la vue
+    // afin qu'elle puisse afficher le formulaire toute seule
+    return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
+      'form' => $form->createView(),
+    ));
   }
 
   public function editAction($id, Request $request)
