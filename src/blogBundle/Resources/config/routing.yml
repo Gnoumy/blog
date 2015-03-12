@@ -13,6 +13,10 @@ blog_post_add:
     path:      /post/add
     defaults:  { _controller: blogBundle:Post:add }
 
+blog_post_confirm:
+    path:      /post/confirm/{titre}-{contenu}
+    defaults:  { _controller: blogBundle:Post:confirm }
+
 blog_post_edit:
     path:      /post/edit/{id}
     defaults:  { _controller: blogBundle:Post:edit }
