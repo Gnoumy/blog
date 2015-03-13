@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: @blogBundle/Resources/config/admin.yml }
 
 framework:
     #esi:             ~
@@ -76,3 +77,10 @@ fos_user:
     db_driver: orm 
     firewall_name: main
     user_class: blogBundle\Entity\User
+
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
