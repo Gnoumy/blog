@@ -13,55 +13,24 @@ class PostController extends Controller
   public function indexAction()
   {
 
-    $listAdverts = array(
-      array(
-        'title'   => 'Recherche développpeur Symfony2',
-        'id'      => 1,
-        'author'  => 'Alexandre',
-        'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-        'date'    => new \Datetime(),
-        'category'=> 'Divers'),
-
-      array(
-        'title'   => 'Mission de webmaster',
-        'id'      => 2,
-        'author'  => 'Hugo',
-        'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
-        'date'    => new \Datetime(),
-        'category'=> 'Enfants'),
-
-      array(
-        'title'   => 'Offre de stage webdesigner',
-        'id'      => 3,
-        'author'  => 'Mathieu',
-        'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
-        'date'    => new \Datetime(),
-        'category'=> 'Religion')
-
-    );
-
+    $em = $this->getDoctrine()->getEntityManager();
+    $entities = $em->getRepository('blogBundle:Post')->findAll();
 
     // Ici, on récupérera la liste des annonces, puis on la passera au template
 
     // Mais pour l'instant, on ne fait qu'appeler le template
     return $this->render('blogBundle:LayoutPost:index.html.twig',array(
-    	'listAdverts'=>$listAdverts
+    	'listAdverts'=>$entities
       ));
   }
 
   public function viewAction($id)
   {
-    // ON RECUPERE LES INFOS DE LA BASE
-    $advert = array(
-      'title'   => 'Recherche développpeur Symfony2',
-      'id'      => $id,
-      'author'  => 'Alexandre',
-      'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
-      'date'    => new \Datetime()
-    );
 
+    $em = $this->getDoctrine()->getEntityManager();
+    $entities = $em->getRepository('blogBundle:Post')->find($id);
     return $this->render('blogBundle:LayoutPost:view.html.twig', array(
-      'advert' => $advert
+      'advert' => $entities
     ));
   }
 
@@ -69,9 +38,9 @@ class PostController extends Controller
 
   public function confirmAction($titre,$contenu)
   {
-        return $this->render('blogBundle:LayoutPost:confirm.html.twig', array(
-      'titre' => $titre,
-      'contenu' => $contenu
+      return $this->render('blogBundle:LayoutPost:confirm.html.twig', array(
+          'titre' => $titre,
+          'contenu' => $contenu
     ));
   }
 
