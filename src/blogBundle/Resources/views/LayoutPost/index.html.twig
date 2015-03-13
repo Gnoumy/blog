@@ -22,7 +22,7 @@
           </h4>
           <h4>
             <small class="text-muted">Par : {{ advert.auteur }} • 
-              <a href="#" class="text-muted">Lire la suite</a>
+              <a href="{{ path('blog_post_view', {'id': advert.id}) }}" class="text-muted">Lire la suite</a>
             </small>
           </h4>
         </div>

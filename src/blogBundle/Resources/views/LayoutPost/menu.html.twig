@@ -1,9 +1,7 @@
 <ul class="nav nav-pills nav-stacked">
-  {% for advert in listAdverts %}
+  {% for user in listAdverts %}
     <li>
-      <a href="{{ path('blog_post_view', {'id': advert.id}) }}">
-        {{ advert.title }}
-      </a>
+        {{ user.username }}
     </li>
   {% endfor %}
 </ul>

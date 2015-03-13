@@ -26,11 +26,12 @@
         <h3>Menu</h3>
         <ul class="nav nav-pills nav-stacked">
           <li><a href="{{ path('blog_home') }}">Accueil</a></li>
-          <li><a href="{{ path('blog_post_add') }}">Ajouter un post</a></li>
+          <li><a href="{{ path('blog_home') }}login">Se connecter</a></li>
+          <li><a href="{{ path('blog_home') }}register">S'enregistrer</a></li>
         </ul>
 
-        <h4>Derniers posts</h4>
-        {{ render(controller("blogBundle:Post:menu", {'limit': 3})) }}
+        <h4>Liste des Utilisateurs</h4>
+        {{ render(controller("blogBundle:Post:menu")) }}
       </div>
       <div id="content" class="col-md-9">
         {% block body %}

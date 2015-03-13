@@ -48,16 +48,12 @@ public function menuAction()
   {
     // On fixe en dur une liste ici, bien entendu par la suite
     // on la récupérera depuis la BDD !
-    $listAdverts = array(
-      array('id' => 2, 'title' => 'Men in black'),
-      array('id' => 5, 'title' => 'AC/DC'),
-      array('id' => 9, 'title' => 'Bamba triste')
-    );
-
+    $em = $this->getDoctrine()->getEntityManager();
+    $entities = $em->getRepository('blogBundle:User')->findAll();
     return $this->render('blogBundle:LayoutPost:menu.html.twig', array(
       // Tout l'intérêt est ici : le contrôleur passe
       // les variables nécessaires au template !
-      'listAdverts' => $listAdverts
+      'listAdverts' => $entities
     ));
   }
 
