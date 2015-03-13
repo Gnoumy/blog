@@ -6,28 +6,27 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 
-use blogBundle\Entity\Category;
+use blogBundle\Entity\User;
 
-class LoadCategory implements FixtureInterface
+class LoadUser implements FixtureInterface
 {
     function load(ObjectManager $manager)
     {
         $i = 1;
         while ($i <= 10) {
-            $Category = new Category();
-            $Category->setTitle('Titre du Category n°'.$i);
-            $manager->persist($Category);
+            $user = new User();
+            $manager->persist($user);
             $i++;
         }
         $manager->flush();
     }
-
 
     /**
     * {@inheritDoc}
     */
     public function getOrder()
     {
-        return 2; // l'ordre dans lequel les fichiers sont chargés
+        return 1; // l'ordre dans lequel les fichiers sont chargés
     }
+
 }
